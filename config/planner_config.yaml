@@ -1,0 +1,42 @@
+# MPC Planner 配置文件
+# 基于实际电机参数优化
+
+planner_node:
+  ros__parameters:
+    # 控制频率 (Hz)
+    control_rate: 100.0
+
+    # 弹丸参数
+    bullet_speed: 25.0        # 弹丸速度 (m/s)
+    flytime_offset: 0.0       # 飞行时间偏移 (s)
+
+    # 云台反馈话题
+    gimbal_feedback_topic: "/communicate/debug/autoaim"
+
+    # 攻击范围
+    attack_range: 10.0        # 最大攻击距离 (m)
+    attack_range_cof: 1.0     # 攻击范围系数
+
+    # ===== MPC 参数 =====
+    # Q 权重: [yaw, pitch, yaw_vel, pitch_vel]
+    Q_weights: [150.0, 150.0, 20.0, 20.0]
+    # R 权重: [yaw_acc_cmd, pitch_acc_cmd]
+    R_weights: [0.02, 0.02]
+    horizon: 20               # 预测步数 (200ms @ 100Hz)
+    dt: 0.01                  # 时间步长 (s)
+    max_iter: 100             # 最大迭代次数
+    abs_pri_tol: 0.0001       # 绝对原始残差容差
+    rho: 1.0                  # ADMM 惩罚参数
+
+    # ===== 物理约束 =====
+    max_yaw_vel: 8.8          # 最大 yaw 角速度 (rad/s)
+    max_pitch_vel: 8.8        # 最大 pitch 角速度 (rad/s)
+    max_yaw_acc: 98.0         # 最大 yaw 角加速度 (rad/s²)
+    max_pitch_acc: 245.0      # 最大 pitch 角加速度 (rad/s²)
+    min_yaw: -3.14159         # 最小 yaw 角度 (rad)
+    max_yaw: 3.14159          # 最大 yaw 角度 (rad)
+    min_pitch: -0.7854        # 最小 pitch 角度 (rad)
+    max_pitch: 0.7854         # 最大 pitch 角度 (rad)
+
+    # ===== 动力学扩展位 =====
+    # 当前二阶模型暂未引入额外阻尼参数，如需扩展可在此声明
